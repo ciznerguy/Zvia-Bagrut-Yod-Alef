@@ -1,0 +1,733 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>סיכום פרקים 3 ו-4</title>
+<style>
+  :root {
+    --ink: #1d2433;
+    --muted: #5b6475;
+    --line: #d9dde5;
+    --paper: #ffffff;
+    --bg: #f4f6f9;
+    --accent: #1f5f99;
+    --accent-soft: #e8f0f8;
+    --warn: #9a5a00;
+    --warn-soft: #fff5e6;
+    --code-bg: #f6f8fa;
+    --out-bg: #1e1e1e;
+    --out-ink: #e6e6e6;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: "Segoe UI", Arial, "David", sans-serif;
+    font-size: 16px;
+    line-height: 1.65;
+  }
+  .page { max-width: 860px; margin: 0 auto; padding: 32px 16px 64px; }
+  header.cover {
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 28px 28px 20px;
+    margin-bottom: 24px;
+  }
+  header.cover h1 { margin: 0 0 6px; font-size: 28px; }
+  header.cover p { margin: 4px 0; color: var(--muted); }
+  h2.chapter {
+    margin: 40px 0 14px;
+    padding: 10px 16px;
+    background: var(--accent);
+    color: #fff;
+    border-radius: 8px;
+    font-size: 22px;
+  }
+  .intro {
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 16px 22px;
+    margin-bottom: 16px;
+  }
+  section.ex {
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 18px 22px 14px;
+    margin-bottom: 16px;
+    break-inside: avoid;
+  }
+  section.ex h3 { margin: 0 0 8px; font-size: 19px; }
+  section.ex h3 .num {
+    display: inline-block;
+    min-width: 30px;
+    padding: 0 8px;
+    margin-left: 8px;
+    border-radius: 6px;
+    background: var(--accent-soft);
+    color: var(--accent);
+    text-align: center;
+  }
+  .label { font-weight: 700; color: var(--muted); font-size: 14px; margin: 12px 0 4px; }
+  code, pre {
+    font-family: Consolas, "Cascadia Mono", "Courier New", monospace;
+    direction: ltr;
+    unicode-bidi: isolate;
+  }
+  code {
+    background: var(--code-bg);
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    padding: 0 5px;
+    font-size: 14px;
+  }
+  pre {
+    text-align: left;
+    margin: 0;
+    padding: 10px 14px;
+    border-radius: 6px;
+    font-size: 14px;
+    line-height: 1.5;
+    overflow-x: auto;
+    white-space: pre;
+  }
+  pre.code { background: var(--code-bg); border: 1px solid var(--line); color: var(--ink); }
+  pre.out { background: var(--out-bg); color: var(--out-ink); }
+  pre.out b { color: #9cdcfe; font-weight: 400; }
+  .note {
+    margin-top: 12px;
+    padding: 10px 14px;
+    background: var(--warn-soft);
+    border-right: 4px solid var(--warn);
+    border-radius: 6px;
+  }
+  .note strong { color: var(--warn); }
+  ul, ol { margin: 6px 0; padding-right: 22px; }
+  li { margin: 3px 0; }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    overflow: hidden;
+    margin: 8px 0 16px;
+    font-size: 15px;
+  }
+  th, td { padding: 8px 12px; border-bottom: 1px solid var(--line); text-align: right; vertical-align: top; }
+  th { background: var(--accent-soft); color: var(--accent); }
+  tr:last-child td { border-bottom: none; }
+  .howto { background: var(--paper); border: 1px solid var(--line); border-radius: 10px; padding: 16px 22px; }
+  @media print {
+    body { background: #fff; font-size: 13px; }
+    .page { padding: 0; max-width: none; }
+    h2.chapter { break-before: page; }
+    h2.chapter.first { break-before: auto; }
+    section.ex, header.cover, .howto, .intro, table { border-color: #bbb; }
+    pre.out { background: #f2f2f2; color: #000; border: 1px solid #bbb; }
+    pre.out b { color: #000; font-weight: 700; }
+  }
+  @media (max-width: 600px) {
+    header.cover, section.ex, .intro { padding: 16px; }
+    th, td { padding: 6px 8px; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+<header class="cover">
+  <h1>סיכום דוגמאות: פרק 3 ופרק 4</h1>
+  <p>יסודות מדעי המחשב, שפת #C, כיתה י"א</p>
+  <p>מסמך מלווה לקוד הדוגמאות בפרויקט <code>ZviaReview_Ch3_4</code></p>
+</header>
+
+<div class="howto">
+  <strong>איך מריצים דוגמה?</strong>
+  <ol>
+    <li>ב-Solution Explorer לוחצים קליק ימני על הפרויקט <code>ZviaReview_Ch3_4</code> ובוחרים <strong>Set as Startup Project</strong>.</li>
+    <li>פותחים את הקובץ <code>Program.cs</code> של הפרויקט.</li>
+    <li>בפעולה <code>Main</code> מוצאים את השורה של הדוגמה, למשל <code>// example25();</code></li>
+    <li>מוחקים את שני הלוכסנים בתחילת השורה ומריצים (F5 או Ctrl+F5).</li>
+    <li>לפני שעוברים לדוגמה הבאה, מחזירים את הלוכסנים לשורה הקודמת.</li>
+  </ol>
+  <p style="margin:8px 0 0">לפני כל הרצה כדאי לנסות לנחש מה יודפס, ורק אחר כך להשוות לפלט. בדוגמאות של מספרים אקראיים הפלט שלכן יהיה שונה מהפלט שבחוברת, וזה תקין.</p>
+</div>
+
+<!-- ===================== פרק 3 ===================== -->
+<h2 class="chapter first">פרק 3: הספרייה המתמטית ומחלקת אקראי</h2>
+
+<div class="intro">
+  <p style="margin-top:0"><strong>הספרייה המתמטית</strong> היא אוסף של פעולות מוכנות לחישובים. כל פעולה מקבלת ערכים בתוך סוגריים (פרמטרים) ומחזירה תוצאה. כותבים את שם הספרייה, נקודה, ואז את שם הפעולה: <code>Math.Sqrt(16)</code></p>
+  <p style="margin-bottom:0"><strong>מחלקת אקראי</strong> מאפשרת להגריל מספרים. יוצרים עצם אחד מטיפוס <code>Random</code>, ומבקשים ממנו להגריל.</p>
+</div>
+
+<table>
+  <tr><th style="width:70px">דוגמה</th><th>נושא</th></tr>
+  <tr><td>21</td><td>ערך מוחלט ומרחק בין מספרים</td></tr>
+  <tr><td>22</td><td>חזקה</td></tr>
+  <tr><td>23</td><td>שורש ריבועי ושורש שלישי</td></tr>
+  <tr><td>24</td><td>עיגול: לשלם הקרוב וכלפי מטה</td></tr>
+  <tr><td>25</td><td>הקטן והגדול מבין שלושה מספרים</td></tr>
+  <tr><td>26</td><td>הקבוע פאי: היקף ושטח של מעגל</td></tr>
+  <tr><td>27</td><td>משפט פיתגורס</td></tr>
+  <tr><td>28</td><td>עיגול לפי מספר ספרות אחרי הנקודה</td></tr>
+  <tr><td>29</td><td>הגרלת מספרים שלמים</td></tr>
+  <tr><td>30</td><td>הגרלה בטווח מיוחד</td></tr>
+</table>
+
+<div class="label">כל הפעולות של הספרייה המתמטית במבט אחד</div>
+<table>
+  <tr><th>פעולה</th><th>מה היא עושה</th><th>דוגמה</th><th>תוצאה</th><th>טיפוס התוצאה</th></tr>
+  <tr><td><code>Math.Abs</code></td><td>ערך מוחלט</td><td><code>Math.Abs(-5)</code></td><td>5</td><td>כמו הקלט</td></tr>
+  <tr><td><code>Math.Pow</code></td><td>חזקה</td><td><code>Math.Pow(2, 3)</code></td><td>8</td><td><code>double</code></td></tr>
+  <tr><td><code>Math.Sqrt</code></td><td>שורש ריבועי</td><td><code>Math.Sqrt(16)</code></td><td>4</td><td><code>double</code></td></tr>
+  <tr><td><code>Math.Round</code></td><td>עיגול לשלם הקרוב</td><td><code>Math.Round(3.6)</code></td><td>4</td><td><code>double</code></td></tr>
+  <tr><td><code>Math.Floor</code></td><td>עיגול כלפי מטה</td><td><code>Math.Floor(3.6)</code></td><td>3</td><td><code>double</code></td></tr>
+  <tr><td><code>Math.Min</code></td><td>הקטן מבין שניים</td><td><code>Math.Min(5, 3)</code></td><td>3</td><td>כמו הקלט</td></tr>
+  <tr><td><code>Math.Max</code></td><td>הגדול מבין שניים</td><td><code>Math.Max(5, 3)</code></td><td>5</td><td>כמו הקלט</td></tr>
+  <tr><td><code>Math.PI</code></td><td>הקבוע פאי</td><td><code>Math.PI</code></td><td>3.14159...</td><td><code>double</code></td></tr>
+</table>
+
+<section class="ex">
+  <h3><span class="num">21</span>ערך מוחלט ומרחק בין מספרים</h3>
+  <p>הפעולה <code>Math.Abs</code> מחזירה את המספר בלי הסימן שלו. אם הקלט שלם התוצאה שלמה, ואם הקלט עשרוני התוצאה עשרונית.</p>
+  <p>שימוש נפוץ: חישוב מרחק בין שני מספרים. המרחק תמיד חיובי, לא משנה איזה מספר גדול יותר.</p>
+<pre class="code">distance = Math.Abs(num1 - num2);</pre>
+  <div class="label">דוגמת הרצה (הקלט מודגש)</div>
+<pre class="out">5
+7
+8.3
+
+Enter the first number: <b>3</b>
+Enter the second number: <b>-4</b>
+The distance between the numbers is 7</pre>
+</section>
+
+<section class="ex">
+  <h3><span class="num">22</span>חזקה</h3>
+  <p>הפעולה <code>Math.Pow(base, exponent)</code> מקבלת בסיס ומעריך. הבסיס והמעריך יכולים להיות שלמים, עשרוניים או שליליים.</p>
+<pre class="code">Math.Pow(2, 3)     // 8
+Math.Pow(-2, 3)    // -8
+Math.Pow(2, -1)    // 0.5</pre>
+  <div class="label">דוגמת הרצה</div>
+<pre class="out">Enter the base: <b>2</b>
+Enter the exponent: <b>10</b>
+2 ^ 10 = 1024</pre>
+  <div class="note"><strong>שימו לב:</strong> הפעולה מחזירה תמיד <code>double</code>, גם כשהתוצאה היא מספר שלם. לכן השורה <code>int x = Math.Pow(2, 3);</code> לא תעבור קומפילציה. צריך משתנה עשרוני, או המרה מפורשת <code>(int)</code>.</div>
+</section>
+
+<section class="ex">
+  <h3><span class="num">23</span>שורש ריבועי ושורש שלישי</h3>
+  <p><code>Math.Sqrt</code> מחזירה שורש ריבועי של מספר חיובי. לשורש אחר משתמשים בחזקה עם מעריך שהוא שבר: שורש שלישי של 8 הוא 8 בחזקת שליש.</p>
+  <div class="label">פלט</div>
+<pre class="out">4
+3.87298334620742
+2
+1</pre>
+  <table>
+    <tr><th>קוד</th><th>תוצאה</th><th>הסבר</th></tr>
+    <tr><td><code>Math.Sqrt(16)</code></td><td>4</td><td>שורש ריבועי</td></tr>
+    <tr><td><code>Math.Sqrt(15)</code></td><td>3.87...</td><td>התוצאה עשרונית</td></tr>
+    <tr><td><code>Math.Pow(8, 1 / 3.0)</code></td><td>2</td><td>שורש שלישי</td></tr>
+    <tr><td><code>Math.Pow(8, 1 / 3)</code></td><td>1</td><td>טעות: 1 חלקי 3 בשלמים הוא 0</td></tr>
+  </table>
+  <div class="note"><strong>מלכודת מפרק 2:</strong> בביטוי <code>1 / 3</code> שני המספרים שלמים, ולכן התוצאה היא 0. כל מספר בחזקת 0 הוא 1. כדי לקבל שליש, אחד המספרים חייב להיות עשרוני: <code>1 / 3.0</code></div>
+</section>
+
+<section class="ex">
+  <h3><span class="num">24</span>עיגול: לשלם הקרוב וכלפי מטה</h3>
+  <table>
+    <tr><th>מספר</th><th><code>Math.Round</code></th><th><code>Math.Floor</code></th></tr>
+    <tr><td>3.6</td><td>4</td><td>3</td></tr>
+    <tr><td>3.4</td><td>3</td><td>3</td></tr>
+    <tr><td>-3.6</td><td>-4</td><td>-4</td></tr>
+    <tr><td>-3.4</td><td>-3</td><td>-4</td></tr>
+  </table>
+  <ul>
+    <li><code>Math.Round</code> מעגלת לשלם הקרוב ביותר.</li>
+    <li><code>Math.Floor</code> מעגלת תמיד כלפי מטה. במספר חיובי זה פשוט חיתוך של החלק העשרוני.</li>
+    <li>במספר שלילי, כלפי מטה פירושו מספר קטן יותר. לכן <code>Math.Floor(-3.4)</code> נותן 4- ולא 3-.</li>
+  </ul>
+  <div class="note"><strong>לידיעה:</strong> ב-#C מספר שמסתיים בדיוק בחצי מעוגל אל המספר הזוגי הקרוב. כך <code>Math.Round(2.5)</code> נותן 2, ו-<code>Math.Round(3.5)</code> נותן 4. בבחינה לא צפויות שאלות על המקרה הזה.</div>
+</section>
+
+<section class="ex">
+  <h3><span class="num">25</span>הקטן והגדול מבין שלושה מספרים</h3>
+  <p><code>Math.Min</code> ו-<code>Math.Max</code> מקבלות שני מספרים בלבד. כדי להשוות שלושה מספרים, מפעילים את הפעולה פעמיים: התוצאה של הפעולה הפנימית נכנסת כפרמטר לפעולה החיצונית.</p>
+<pre class="code">min = Math.Min(Math.Min(num1, num2), num3);
+max = Math.Max(Math.Max(num1, num2), num3);</pre>
+  <div class="label">דוגמת הרצה</div>
+<pre class="out">Enter the first number: <b>7</b>
+Enter the second number: <b>2</b>
+Enter the third number: <b>9</b>
+The minimum is 2
+The maximum is 9</pre>
+  <div class="note"><strong>כלל:</strong> לשלושה מספרים מפעילים את הפעולה פעמיים, ולארבעה מספרים שלוש פעמים.</div>
+</section>
+
+<section class="ex">
+  <h3><span class="num">26</span>הקבוע פאי: היקף ושטח של מעגל</h3>
+  <p>בספרייה המתמטית מוגדר הקבוע <code>Math.PI</code>, ולכן אין צורך לכתוב 3.14 בעצמנו. כך החישוב גם מדויק יותר.</p>
+<pre class="code">perimeter = 2 * Math.PI * radius;
+area = Math.PI * Math.Pow(radius, 2);</pre>
+  <div class="label">דוגמת הרצה</div>
+<pre class="out">Enter the circle's radius: <b>5</b>
+The perimeter is 31.4159265358979
+The area is 78.5398163397448</pre>
+</section>
+
+<section class="ex">
+  <h3><span class="num">27</span>משפט פיתגורס</h3>
+  <p>במשולש ישר זווית, אורך היתר שווה לשורש של סכום ריבועי הניצבים. בשורה אחת משתמשים בשתי פעולות של הספרייה.</p>
+<pre class="code">c = Math.Sqrt(Math.Pow(a, 2) + Math.Pow(b, 2));</pre>
+  <div class="label">דוגמת הרצה</div>
+<pre class="out">Enter the first side: <b>6</b>
+Enter the second side: <b>8</b>
+The hypotenuse is 10</pre>
+</section>
+
+<section class="ex">
+  <h3><span class="num">28</span>עיגול לפי מספר ספרות אחרי הנקודה</h3>
+  <p><code>Math.Round</code> מעגלת למספר שלם. כדי להשאיר ספרות אחרי הנקודה, משתמשים בטריק של שלושה שלבים:</p>
+  <table>
+    <tr><th>שלב</th><th>מה עושים</th><th>דוגמה: 456.1234 לשתי ספרות</th></tr>
+    <tr><td>1</td><td>מזיזים את הנקודה ימינה: כופלים בעשר בחזקת מספר הספרות</td><td><code>456.1234 * 100 = 45612.34</code></td></tr>
+    <tr><td>2</td><td>מעגלים לשלם</td><td><code>Math.Round(45612.34) = 45612</code></td></tr>
+    <tr><td>3</td><td>מחזירים את הנקודה: מחלקים באותו מספר</td><td><code>45612 / 100 = 456.12</code></td></tr>
+  </table>
+<pre class="code">num = num * Math.Pow(10, digits);
+num = Math.Round(num);
+num = num / Math.Pow(10, digits);</pre>
+  <div class="label">דוגמת הרצה</div>
+<pre class="out">Enter a decimal number: <b>456.1234</b>
+How many digits after the point? <b>2</b>
+The rounded number is 456.12</pre>
+</section>
+
+<section class="ex">
+  <h3><span class="num">29</span>הגרלת מספרים שלמים</h3>
+  <p>בראש המחלקה מוגדר עצם אחד להגרלה, והוא משמש את כל הדוגמאות:</p>
+<pre class="code">static Random rnd = new Random();</pre>
+  <table>
+    <tr><th>קוד</th><th>טווח התוצאות</th></tr>
+    <tr><td><code>rnd.Next()</code></td><td>מספר שלם חיובי כלשהו</td></tr>
+    <tr><td><code>rnd.Next(5)</code></td><td>מ-0 עד 4. המספר 5 לא נכלל</td></tr>
+    <tr><td><code>rnd.Next(10, 15)</code></td><td>מ-10 עד 14. המספר 15 לא נכלל</td></tr>
+    <tr><td><code>rnd.Next(1, 7)</code></td><td>מ-1 עד 6, כמו קובייה</td></tr>
+  </table>
+  <div class="label">דוגמת הרצה (בכל הרצה המספרים אחרים)</div>
+<pre class="out">Any positive number: 1879851007
+Between 0 and 4: 1
+Between 10 and 14: 12
+Dice: 4</pre>
+  <div class="note"><strong>שתי טעויות נפוצות:</strong>
+    <ul>
+      <li>לשכוח שהמספר האחרון לא נכלל. לקובייה כותבים <code>rnd.Next(1, 7)</code> ולא <code>rnd.Next(1, 6)</code>.</li>
+      <li>ליצור עצם הגרלה חדש בכל פעם. מגדירים עצם אחד בלבד, פעם אחת, כדי שההגרלות יהיו באמת אקראיות.</li>
+    </ul>
+  </div>
+</section>
+
+<section class="ex">
+  <h3><span class="num">30</span>הגרלה בטווח מיוחד</h3>
+  <p>כדי לקבל טווח שאין לו פעולה מוכנה, מגרילים מספר פשוט ומשנים אותו בעזרת חשבון.</p>
+  <table>
+    <tr><th>מה רוצים</th><th>קוד</th><th>איך זה עובד</th></tr>
+    <tr><td>מספר דו ספרתי</td><td><code>rnd.Next(10, 100)</code></td><td>מ-10 עד 99</td></tr>
+    <tr><td>מספר דו ספרתי זוגי</td><td><code>rnd.Next(5, 50) * 2</code></td><td>מגרילים 5 עד 49 וכופלים ב-2. מתקבל 10 עד 98, תמיד זוגי</td></tr>
+    <tr><td>מספר אי זוגי עד 99</td><td><code>rnd.Next(50) * 2 + 1</code></td><td>מגרילים 0 עד 49, כופלים ב-2 ומוסיפים 1. מתקבל 1 עד 99, תמיד אי זוגי</td></tr>
+    <tr><td>מספר עשרוני בין 0 ל-1</td><td><code>rnd.NextDouble()</code></td><td>יכול לצאת 0, אף פעם לא 1</td></tr>
+    <tr><td>מספר עשרוני בטווח</td><td><code>rnd.NextDouble() * (max - min) + min</code></td><td>מכפילים בגודל הטווח ומוסיפים את ההתחלה</td></tr>
+  </table>
+  <div class="label">דוגמת הרצה</div>
+<pre class="out">Two digit: 93
+Even two digit: 44
+Odd under 100: 41
+Between 0 and 1: 0.494135163023199
+
+Enter the minimum: <b>10</b>
+Enter the maximum: <b>15</b>
+A random number in the range: 14.1327968328878</pre>
+  <div class="note"><strong>איך בודקים נוסחה כזו?</strong> מציבים בה את המספר הקטן ביותר ואת הגדול ביותר שאפשר להגריל, ובודקים שמתקבלים בדיוק גבולות הטווח הרצוי.</div>
+</section>
+
+<!-- ===================== פרק 4 ===================== -->
+<h2 class="chapter">פרק 4: משפטי תנאי</h2>
+
+<div class="intro">
+  <p style="margin-top:0">משפט תנאי מאפשר לתוכנית לבחור מה לעשות, לפי הנתונים. עד עכשיו כל ההוראות בוצעו תמיד, אחת אחרי השנייה. מעכשיו חלק מההוראות יתבצעו רק במצבים מסוימים.</p>
+  <table>
+    <tr><th>מבנה</th><th>מתי משתמשים</th></tr>
+    <tr><td><code>if</code></td><td>מבצעים משהו רק אם התנאי מתקיים</td></tr>
+    <tr><td><code>if ... else</code></td><td>שתי אפשרויות, ותמיד מתבצעת אחת מהן</td></tr>
+    <tr><td><code>if ... else if ... else</code></td><td>כמה מקרים זרים, רק אחד מהם יכול לקרות</td></tr>
+    <tr><td>תנאי בתוך תנאי</td><td>שאלה שרלוונטית רק בתוך מקרה מסוים</td></tr>
+    <tr><td><code>switch</code></td><td>משתנה אחד מול כמה ערכים קבועים</td></tr>
+  </table>
+  <p style="margin-bottom:0"><strong>כלל כתיבה:</strong> בכל הדוגמאות ההוראות שבתוך התנאי עטופות בסוגריים מסולסלים <code>{ }</code>, גם כשיש רק הוראה אחת, ומוזזות פנימה בטאב אחד (הזחה). כך רואים בבירור מה שייך לתנאי.</p>
+</div>
+
+<table>
+  <tr><th style="width:70px">דוגמה</th><th>נושא</th></tr>
+  <tr><td>31</td><td>משפט תנאי פשוט</td></tr>
+  <tr><td>32</td><td>תנאי עם שתי אפשרויות: זוגי או אי זוגי</td></tr>
+  <tr><td>33</td><td>שרשרת תנאים: רמת הציון</td></tr>
+  <tr><td>34</td><td>תנאי מורכב: הגדול מבין שלושה</td></tr>
+  <tr><td>35</td><td>תנאי עם או: מה לומדים היום</td></tr>
+  <tr><td>36</td><td>תנאי בתוך תנאי: תשלום ועד בית</td></tr>
+  <tr><td>37</td><td>משפט בחירה: מחשבון</td></tr>
+  <tr><td>38</td><td>משפט בחירה עם כמה ערכים: ספרות רומיות</td></tr>
+  <tr><td>39</td><td>בחירת ההנחה המשתלמת</td></tr>
+  <tr><td>40</td><td>זכייה ברולטה</td></tr>
+</table>
+
+<section class="ex">
+  <h3><span class="num">31</span>משפט תנאי פשוט</h3>
+<pre class="code">if (num > 0)
+{
+    Console.WriteLine("The number is positive");
+}
+
+Console.WriteLine("Bye");</pre>
+  <ul>
+    <li>בתוך הסוגריים העגולים יש ביטוי לוגי, שערכו אמת או שקר.</li>
+    <li>ההוראות שבסוגריים המסולסלים מתבצעות רק כשהתנאי אמת.</li>
+    <li>ההוראה שאחרי הסוגריים המסולסלים מתבצעת תמיד.</li>
+  </ul>
+  <div class="label">שתי הרצות</div>
+<pre class="out">Enter a number: <b>5</b>
+The number is positive
+Bye
+
+Enter a number: <b>-3</b>
+Bye</pre>
+  <div class="note"><strong>טעות נפוצה:</strong> אין נקודה פסיק בסוף שורת ה-<code>if</code>. אם כותבים <code>if (num > 0);</code> התנאי נגמר מיד, וההודעה תודפס תמיד.</div>
+</section>
+
+<section class="ex">
+  <h3><span class="num">32</span>תנאי עם שתי אפשרויות: זוגי או אי זוגי</h3>
+<pre class="code">if (num % 2 == 0)
+{
+    Console.WriteLine(num + " is even");
+}
+else
+{
+    Console.WriteLine(num + " is odd");
+}</pre>
+  <p>החלק של <code>else</code> מתבצע רק כשהתנאי שקר. תמיד מתבצע בדיוק אחד משני החלקים.</p>
+  <div class="label">דוגמת הרצה</div>
+<pre class="out">Enter a number: <b>7</b>
+7 is odd</pre>
+  <div class="note"><strong>שימו לב:</strong> להשוואה כותבים שני סימני שוויון <code>==</code>. סימן אחד <code>=</code> הוא השמה, ובתוך תנאי הוא יגרום לשגיאת קומפילציה.</div>
+</section>
+
+<section class="ex">
+  <h3><span class="num">33</span>שרשרת תנאים: רמת הציון</h3>
+<pre class="code">if (grade >= 90)
+{
+    Console.WriteLine("Excellent");
+}
+else if (grade >= 80)
+{
+    Console.WriteLine("Very good");
+}
+else if (grade >= 60)
+{
+    Console.WriteLine("Passed");
+}
+else
+{
+    Console.WriteLine("Failed");
+}</pre>
+  <table>
+    <tr><th>ציון</th><th>פלט</th></tr>
+    <tr><td>95</td><td><code>Excellent</code></td></tr>
+    <tr><td>85</td><td><code>Very good</code></td></tr>
+    <tr><td>65</td><td><code>Passed</code></td></tr>
+    <tr><td>40</td><td><code>Failed</code></td></tr>
+  </table>
+  <div class="note"><strong>למה לא כותבים <code>grade &lt; 90 &amp;&amp; grade &gt;= 80</code>?</strong> הבדיקה נעצרת בתנאי הראשון שמתקיים. אם הגענו לתנאי השני, כבר ידוע שהציון קטן מ-90. אין צורך לבדוק את זה שוב.</div>
+</section>
+
+<section class="ex">
+  <h3><span class="num">34</span>תנאי מורכב: הגדול מבין שלושה</h3>
+<pre class="code">if (num1 >= num2 &amp;&amp; num1 >= num3)
+{
+    max = num1;
+}
+else if (num2 >= num3)
+{
+    max = num2;
+}
+else
+{
+    max = num3;
+}
+
+Console.WriteLine("The maximum is " + max);</pre>
+  <ul>
+    <li>התנאי הראשון מורכב משני תנאים שמחוברים ב-<code>&amp;&amp;</code>. שניהם חייבים להתקיים.</li>
+    <li>בתנאי השני כבר ידוע ש-num1 אינו הגדול ביותר, ולכן מספיק להשוות בין num2 ל-num3.</li>
+    <li>המספר הגדול נשמר במשתנה, ומודפס פעם אחת בסוף. כך אין שכפול של שורת ההדפסה בכל מקרה.</li>
+  </ul>
+  <div class="label">שתי הרצות</div>
+<pre class="out">Enter the first number: <b>4</b>
+Enter the second number: <b>9</b>
+Enter the third number: <b>2</b>
+The maximum is 9
+
+Enter the first number: <b>7</b>
+Enter the second number: <b>7</b>
+Enter the third number: <b>3</b>
+The maximum is 7</pre>
+  <div class="note"><strong>למה <code>&gt;=</code> ולא <code>&gt;</code>?</strong> בהרצה השנייה יש שני מספרים שווים. עם <code>&gt;</code> בלבד, התנאי הראשון היה שקר, אבל התוצאה עדיין הייתה נכונה. עם <code>&gt;=</code> הקוד ברור יותר ומטפל גם במקרה של שוויון.</div>
+</section>
+
+<section class="ex">
+  <h3><span class="num">35</span>תנאי עם או: מה לומדים היום</h3>
+  <table>
+    <tr><th>יום</th><th>מקצוע</th></tr>
+    <tr><td>ראשון, רביעי</td><td>מתמטיקה</td></tr>
+    <tr><td>שני, חמישי</td><td>מדעי המחשב</td></tr>
+    <tr><td>שלישי</td><td>אנגלית</td></tr>
+    <tr><td>שישי, שבת</td><td>יום חופשי</td></tr>
+  </table>
+<pre class="code">if (dayOfWeek.Equals("Sunday") || dayOfWeek.Equals("Wednesday"))
+{
+    subject = "Math";
+}</pre>
+  <ul>
+    <li>כדי להשוות מחרוזות משתמשים בפעולה <code>Equals</code>.</li>
+    <li><code>||</code> פירושו "או": מספיק שאחד התנאים יתקיים.</li>
+    <li>המשתנה הבוליאני <code>isValidDay</code> מתחיל באמת, והופך לשקר רק אם אף יום לא התאים. בסוף בודקים אותו ומדפיסים הודעה אחת מתאימה.</li>
+  </ul>
+  <div class="label">שלוש הרצות</div>
+<pre class="out">What is the day today? <b>Monday</b>
+On Monday you learn Computer Science
+
+What is the day today? <b>Friday</b>
+On Friday you learn nothing, it's a free day
+
+What is the day today? <b>sunday</b>
+sunday is not a valid day</pre>
+  <div class="note"><strong>למה sunday לא תקין?</strong> השוואת מחרוזות מבחינה בין אות גדולה לקטנה. המחרוזת <code>"sunday"</code> שונה מ-<code>"Sunday"</code>.</div>
+</section>
+
+<section class="ex">
+  <h3><span class="num">36</span>תנאי בתוך תנאי: תשלום ועד בית</h3>
+  <table>
+    <tr><th>דירה</th><th>תשלום</th></tr>
+    <tr><td>3 חדרים</td><td>120 ש"ח</td></tr>
+    <tr><td>4 חדרים</td><td>150 ש"ח</td></tr>
+    <tr><td>5 חדרים, דופלקס</td><td>200 ש"ח</td></tr>
+    <tr><td>5 חדרים, לא דופלקס</td><td>180 ש"ח</td></tr>
+  </table>
+<pre class="code">if (numOfRooms == 3)
+{
+    price = 120;
+}
+else if (numOfRooms == 4)
+{
+    price = 150;
+}
+else
+{
+    Console.Write("Is it a duplex? (true/false) ");
+    isDuplex = bool.Parse(Console.ReadLine());
+
+    if (isDuplex)
+    {
+        price = 200;
+    }
+    else
+    {
+        price = 180;
+    }
+}</pre>
+  <p>השאלה אם הדירה דופלקס רלוונטית רק לדירת 5 חדרים, ולכן שואלים אותה רק בתוך המקרה הזה. זה תנאי בתוך תנאי.</p>
+  <div class="label">שלוש הרצות</div>
+<pre class="out">How many rooms? <b>4</b>
+The price is 150
+
+How many rooms? <b>5</b>
+Is it a duplex? (true/false) <b>true</b>
+The price is 200
+
+How many rooms? <b>5</b>
+Is it a duplex? (true/false) <b>false</b>
+The price is 180</pre>
+  <div class="note"><strong>שימו לב:</strong> <code>if (isDuplex)</code> זהה ל-<code>if (isDuplex == true)</code>, כי המשתנה הוא כבר ערך לוגי. לפי התרגיל יש בבניין רק דירות של 3, 4 ו-5 חדרים, ולכן כל מספר אחר יטופל כמו 5 חדרים.</div>
+</section>
+
+<section class="ex">
+  <h3><span class="num">37</span>משפט בחירה: מחשבון</h3>
+<pre class="code">switch (operation)
+{
+    case '+':
+        result = num1 + num2;
+        break;
+    case '-':
+        result = num1 - num2;
+        break;
+    case '*':
+        result = num1 * num2;
+        break;
+    case '%':
+        result = num1 % num2;
+        break;
+    default:
+        isValid = false;
+        break;
+}</pre>
+  <table>
+    <tr><th>חלק</th><th>תפקיד</th></tr>
+    <tr><td><code>switch (operation)</code></td><td>המשתנה שבודקים</td></tr>
+    <tr><td><code>case '+':</code></td><td>ערך קבוע להשוואה. אי אפשר לשים כאן משתנה</td></tr>
+    <tr><td><code>break;</code></td><td>יציאה מהמשפט. חובה בסוף כל מקרה, אחרת יש שגיאת קומפילציה</td></tr>
+    <tr><td><code>default:</code></td><td>מתבצע אם אף מקרה לא התאים. לא חובה</td></tr>
+  </table>
+  <div class="label">שלוש הרצות</div>
+<pre class="out">Enter the first number: <b>8</b>
+Enter an operation (+ - * %): <b>-</b>
+Enter the second number: <b>2</b>
+The result is 6
+
+Enter the first number: <b>17</b>
+Enter an operation (+ - * %): <b>%</b>
+Enter the second number: <b>5</b>
+The result is 2
+
+Enter the first number: <b>8</b>
+Enter an operation (+ - * %): <b>@</b>
+Enter the second number: <b>2</b>
+Invalid operation</pre>
+  <div class="note"><strong>מתי משתמשים במשפט בחירה?</strong> כשבודקים שוויון של משתנה אחד מול כמה ערכים קבועים, וכל המקרים זרים. אם צריך לבדוק טווח, כמו "ציון מעל 90", משתמשים בשרשרת של <code>if</code>.</div>
+</section>
+
+<section class="ex">
+  <h3><span class="num">38</span>משפט בחירה עם כמה ערכים: ספרות רומיות</h3>
+<pre class="code">switch (romanDigit)
+{
+    case 'i':
+    case 'I':
+        value = 1;
+        break;
+    case 'v':
+    case 'V':
+        value = 5;
+        break;
+    ...
+}</pre>
+  <p>כשכמה ערכים צריכים את אותו טיפול, כותבים כמה <code>case</code> ברצף, ואת הקוד המשותף פעם אחת בלבד. כך האות הקטנה והאות הגדולה מקבלות את אותו ערך.</p>
+  <table>
+    <tr><th>ספרה רומית</th><th>ערך</th></tr>
+    <tr><td>I</td><td>1</td></tr>
+    <tr><td>V</td><td>5</td></tr>
+    <tr><td>X</td><td>10</td></tr>
+    <tr><td>L</td><td>50</td></tr>
+    <tr><td>C</td><td>100</td></tr>
+  </table>
+  <div class="label">שתי הרצות</div>
+<pre class="out">Enter a roman digit (I, V, X, L, C): <b>x</b>
+The value is 10
+
+Enter a roman digit (I, V, X, L, C): <b>Q</b>
+Invalid input</pre>
+</section>
+
+<section class="ex">
+  <h3><span class="num">39</span>בחירת ההנחה המשתלמת</h3>
+  <ul>
+    <li><strong>מבצע 1:</strong> על כל 300 ש"ח בקנייה מקבלים 50 ש"ח הנחה.</li>
+    <li><strong>מבצע 2:</strong> בקנייה של 3 פריטים ומעלה מקבלים 20% הנחה.</li>
+    <li>אין כפל מבצעים. בוחרים את המבצע שנותן מחיר נמוך יותר.</li>
+  </ul>
+<pre class="code">afterDiscount1 = price - ((int)price / 300) * 50;</pre>
+  <p>כדי לדעת כמה פעמים 300 נכנס בסכום, משתמשים בחילוק שלמים מפרק 2. למשל, ב-650 ש"ח: 650 חלקי 300 בשלמים הוא 2, ולכן ההנחה היא 2 כפול 50, כלומר 100 ש"ח.</p>
+  <table>
+    <tr><th>סכום</th><th>פריטים</th><th>אחרי מבצע 1</th><th>אחרי מבצע 2</th><th>המשתלם</th></tr>
+    <tr><td>450</td><td>2</td><td>400</td><td>450</td><td>מבצע 1</td></tr>
+    <tr><td>450</td><td>3</td><td>400</td><td>360</td><td>מבצע 2</td></tr>
+    <tr><td>650</td><td>3</td><td>550</td><td>520</td><td>מבצע 2</td></tr>
+  </table>
+  <div class="label">דוגמת הרצה</div>
+<pre class="out">Enter the total price: <b>450</b>
+How many items? <b>3</b>
+Use discount 2. You pay 360</pre>
+  <div class="note"><strong>שלבי פתרון של שאלה מילולית:</strong> קוראים ומבינים, מציבים ערכים לדוגמה (כמו בטבלה), מזהים מה קלט, מה חישוב ומה פלט, ורק אז כותבים קוד.</div>
+</section>
+
+<section class="ex">
+  <h3><span class="num">40</span>זכייה ברולטה</h3>
+  <p>הדוגמה הזו משלבת את פרקים 2, 3 ו-4: הגרלה, פירוק ספרות ושרשרת תנאים.</p>
+  <ul>
+    <li>מגרילים מספר בין 1 ל-36: <code>rnd.Next(1, 37)</code></li>
+    <li>אם המספר מתחלק ב-10, הזכייה פי 4.</li>
+    <li>אחרת, אם לשתי הספרות יש אותה זוגיות, הזכייה פי 3.</li>
+    <li>אחרת, אם המספר זוגי וקטן מ-20, הזכייה פי 2.</li>
+    <li>בכל מקרה אחר אין זכייה.</li>
+  </ul>
+<pre class="code">ones = num % 10;
+tens = num / 10;
+
+if (num % 10 == 0)
+{
+    win = bet * 4;
+}
+else if (ones % 2 == tens % 2)
+{
+    win = bet * 3;
+}
+else if (num &lt; 20 &amp;&amp; num % 2 == 0)
+{
+    win = bet * 2;
+}
+else
+{
+    win = 0;
+}</pre>
+  <div class="note"><strong>למה מתחילים מהפרס הגבוה?</strong> מספר יכול לענות על כמה תנאים. למשל 20 מתחלק ב-10, ובנוסף שתי הספרות שלו זוגיות. כיוון שהשרשרת נעצרת בתנאי הראשון שמתקיים, בודקים קודם את הפרס הגבוה.</div>
+  <div class="label">אילו מספרים זוכים?</div>
+  <table>
+    <tr><th>זכייה</th><th>מספרים</th></tr>
+    <tr><td>פי 4</td><td>10, 20, 30</td></tr>
+    <tr><td>פי 3</td><td>2, 4, 6, 8, 11, 13, 15, 17, 19, 22, 24, 26, 28, 31, 33, 35</td></tr>
+    <tr><td>פי 2</td><td>12, 14, 16, 18</td></tr>
+    <tr><td>אין זכייה</td><td>1, 3, 5, 7, 9, 21, 23, 25, 27, 29, 32, 34, 36</td></tr>
+  </table>
+  <div class="note"><strong>שאלה למחשבה:</strong> למה המספרים 2, 4, 6 ו-8 זוכים פי 3? במספר חד ספרתי ספרת העשרות היא 0, ו-0 זוגי. לכן כל מספר חד ספרתי זוגי עונה על תנאי הזוגיות הזהה.</div>
+  <div class="label">שתי הרצות (המספר מוגרל, ולכן אצלכן יצא אחר)</div>
+<pre class="out">Enter your bet: <b>10</b>
+The roulette number is 11
+You win 30
+
+Enter your bet: <b>10</b>
+The roulette number is 27
+No luck this time</pre>
+</section>
+
+<h2 class="chapter">דף חזרה מהיר</h2>
+<table>
+  <tr><th>נושא</th><th>מה חשוב לזכור</th></tr>
+  <tr><td>טיפוס התוצאה</td><td><code>Pow</code>, <code>Sqrt</code>, <code>Round</code> ו-<code>Floor</code> מחזירות תמיד <code>double</code></td></tr>
+  <tr><td>שורש שלישי</td><td><code>Math.Pow(x, 1 / 3.0)</code>, עם 3.0 ולא 3</td></tr>
+  <tr><td>הגדול מבין שלושה</td><td><code>Math.Max(Math.Max(a, b), c)</code></td></tr>
+  <tr><td>עיגול לספרות</td><td>כופלים, מעגלים, מחלקים</td></tr>
+  <tr><td>הגרלה</td><td>עצם אחד בלבד. המספר האחרון בטווח לא נכלל</td></tr>
+  <tr><td>קובייה</td><td><code>rnd.Next(1, 7)</code></td></tr>
+  <tr><td>השוואה</td><td><code>==</code> להשוואה, <code>=</code> להשמה</td></tr>
+  <tr><td>השוואת מחרוזות</td><td><code>Equals</code>, ויש הבדל בין אות גדולה לקטנה</td></tr>
+  <tr><td>שרשרת תנאים</td><td>נעצרת בתנאי הראשון שמתקיים, ולכן לא חוזרים על תנאים</td></tr>
+  <tr><td>סדר התנאים</td><td>כשמספר יכול לענות על כמה תנאים, בודקים קודם את החשוב ביותר</td></tr>
+  <tr><td>משפט בחירה</td><td>רק לשוויון מול ערכים קבועים, ו-<code>break</code> בסוף כל מקרה</td></tr>
+  <tr><td>הדפסה</td><td>שומרים את התוצאה במשתנה ומדפיסים פעם אחת בסוף</td></tr>
+</table>
+
+</div>
+</body>
+</html>

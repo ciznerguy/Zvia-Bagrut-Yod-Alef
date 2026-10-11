@@ -1,0 +1,483 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>מבדק פרקים 3 ו-4</title>
+<style>
+  :root {
+    --ink: #1d2433;
+    --muted: #5b6475;
+    --line: #d9dde5;
+    --paper: #ffffff;
+    --bg: #f4f6f9;
+    --accent: #1f5f99;
+    --accent-soft: #e8f0f8;
+    --ok: #2e7d32;
+    --ok-soft: #e8f5e9;
+    --bad: #c62828;
+    --bad-soft: #fdecea;
+    --warn: #9a5a00;
+    --warn-soft: #fff5e6;
+    --code-bg: #f6f8fa;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --ink: #e6e9ef;
+      --muted: #a3abba;
+      --line: #343a46;
+      --paper: #1c2029;
+      --bg: #12151b;
+      --accent: #6aa8e0;
+      --accent-soft: #1d2b3a;
+      --ok: #81c784;
+      --ok-soft: #1c2e1f;
+      --bad: #ef9a9a;
+      --bad-soft: #3a1f1f;
+      --warn: #ffb74d;
+      --warn-soft: #33281a;
+      --code-bg: #232833;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: "Segoe UI", Arial, sans-serif;
+    font-size: 17px;
+    line-height: 1.6;
+  }
+  .page { max-width: 780px; margin: 0 auto; padding: 24px 16px 80px; }
+  header {
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 22px;
+    margin-bottom: 18px;
+  }
+  header h1 { margin: 0 0 6px; font-size: 26px; }
+  header p { margin: 4px 0; color: var(--muted); }
+  .name-row { margin-top: 14px; display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+  .name-row input {
+    font: inherit;
+    padding: 8px 12px;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    background: var(--paper);
+    color: var(--ink);
+    min-width: 0;
+    flex: 1 1 200px;
+  }
+  .progress {
+    position: sticky;
+    top: 0;
+    z-index: 5;
+    background: var(--bg);
+    padding: 8px 0 10px;
+  }
+  .bar { height: 8px; background: var(--line); border-radius: 99px; overflow: hidden; }
+  .bar > div { height: 100%; width: 0; background: var(--accent); transition: width .2s; }
+  .progress small { color: var(--muted); }
+  .q {
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 18px 20px;
+    margin-bottom: 14px;
+  }
+  .q .head { display: flex; justify-content: space-between; gap: 10px; align-items: baseline; }
+  .q .qnum { font-weight: 700; color: var(--accent); }
+  .q .topic { font-size: 13px; color: var(--muted); }
+  .q .text { margin: 6px 0 10px; font-weight: 600; }
+  code, pre {
+    font-family: Consolas, "Cascadia Mono", "Courier New", monospace;
+    direction: ltr;
+    unicode-bidi: isolate;
+  }
+  code {
+    background: var(--code-bg);
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    padding: 0 5px;
+    font-size: 15px;
+  }
+  pre.code {
+    text-align: left;
+    background: var(--code-bg);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 10px 14px;
+    margin: 0 0 12px;
+    font-size: 15px;
+    overflow-x: auto;
+  }
+  .opts { display: grid; gap: 8px; }
+  .opt {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 12px;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    cursor: pointer;
+    background: var(--paper);
+  }
+  .opt:hover { border-color: var(--accent); }
+  .opt input { margin: 0; flex: none; width: 18px; height: 18px; accent-color: var(--accent); }
+  .opt pre { margin: 0; text-align: left; white-space: pre; font-size: 15px; }
+  .opt.correct { background: var(--ok-soft); border-color: var(--ok); }
+  .opt.wrong { background: var(--bad-soft); border-color: var(--bad); }
+  .explain {
+    display: none;
+    margin-top: 10px;
+    padding: 10px 12px;
+    border-radius: 8px;
+    background: var(--accent-soft);
+    font-size: 15px;
+  }
+  .done .explain { display: block; }
+  .done .opt { cursor: default; }
+  .verdict { font-weight: 700; margin-left: 6px; }
+  .verdict.ok { color: var(--ok); }
+  .verdict.bad { color: var(--bad); }
+  button {
+    font: inherit;
+    font-weight: 700;
+    padding: 12px 22px;
+    border-radius: 10px;
+    border: none;
+    background: var(--accent);
+    color: #fff;
+    cursor: pointer;
+  }
+  button.secondary { background: transparent; color: var(--accent); border: 1px solid var(--accent); }
+  .actions { display: flex; gap: 10px; flex-wrap: wrap; margin: 18px 0; }
+  .msg { color: var(--warn); font-weight: 600; margin: 8px 0; }
+  #result {
+    display: none;
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 22px;
+    margin-bottom: 18px;
+  }
+  .score { font-size: 54px; font-weight: 800; line-height: 1.1; }
+  .score.high { color: var(--ok); }
+  .score.mid { color: var(--warn); }
+  .score.low { color: var(--bad); }
+  .review {
+    margin-top: 14px;
+    padding: 12px 16px;
+    background: var(--warn-soft);
+    border-right: 4px solid var(--warn);
+    border-radius: 8px;
+  }
+  .review ul { margin: 6px 0; padding-right: 20px; }
+  .review li { margin: 6px 0; }
+  .review .ex { color: var(--muted); font-size: 15px; }
+  .allgood {
+    margin-top: 14px;
+    padding: 12px 16px;
+    background: var(--ok-soft);
+    border-right: 4px solid var(--ok);
+    border-radius: 8px;
+  }
+  a { color: var(--accent); }
+  @media (max-width: 520px) {
+    body { font-size: 16px; }
+    .q { padding: 14px; }
+    header { padding: 16px; }
+    .score { font-size: 44px; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+<header>
+  <h1>מבדק חזרה: פרקים 3 ו-4</h1>
+  <p>הספרייה המתמטית ומחלקת אקראי, משפטי תנאי</p>
+  <p>יש במבדק 24 שאלות. בחרי תשובה אחת בכל שאלה, ובסוף לחצי על "בדיקת המבדק".</p>
+  <p>אפשר להיעזר בטבלת מעקב על דף, אבל בלי להריץ את הקוד.</p>
+  <div class="name-row">
+    <label for="name">שם:</label>
+    <input id="name" type="text" autocomplete="off" placeholder="לא חובה">
+  </div>
+</header>
+
+<div class="progress">
+  <div class="bar"><div id="barFill"></div></div>
+  <small id="progressText"></small>
+</div>
+
+<div id="result"></div>
+<div id="quiz"></div>
+
+<div class="actions" id="actions">
+  <button id="submitBtn" type="button">בדיקת המבדק</button>
+</div>
+<div class="msg" id="msg"></div>
+
+</div>
+
+<script>
+var BOOKLET = "https://ciznerguy.github.io/ZviaReview0810/Summary_Ch3_4.html";
+
+var TOPICS = {
+  abs:     { name: "ערך מוחלט", ex: [21] },
+  pow:     { name: "חזקה ושורש", ex: [22, 23] },
+  round:   { name: "עיגול", ex: [24, 28] },
+  minmax:  { name: "הקטן והגדול מבין מספרים", ex: [25] },
+  formula: { name: "נוסחאות עם הספרייה המתמטית", ex: [26, 27] },
+  random:  { name: "הגרלת מספרים", ex: [29, 30] },
+  ifelse:  { name: "משפט תנאי פשוט ועם שתי אפשרויות", ex: [31, 32] },
+  chain:   { name: "שרשרת תנאים", ex: [33, 34] },
+  complex: { name: "תנאים מורכבים והשוואת מחרוזות", ex: [34, 35] },
+  nested:  { name: "תנאי בתוך תנאי", ex: [36] },
+  switch:  { name: "משפט בחירה", ex: [37, 38] }
+};
+
+// כל שאלה: נושא, טקסט, קוד (לא חובה), אפשרויות, אינדקס התשובה הנכונה, הסבר
+// אפשרות שמתחילה ב-"$" מוצגת כקוד
+var QUESTIONS = [
+  { t: "abs", text: "מה יודפס?",
+    code: "Console.WriteLine(Math.Abs(-7.5));",
+    opts: ["$-7.5", "$7.5", "$7", "$8"], a: 1,
+    exp: "ערך מוחלט מוריד את הסימן. הקלט עשרוני, ולכן גם התוצאה עשרונית." },
+
+  { t: "abs", text: "מה יודפס?",
+    code: "int a = 3, b = 10;\nConsole.WriteLine(Math.Abs(a - b));",
+    opts: ["$-7", "$7", "$13", "$3"], a: 1,
+    exp: "3 פחות 10 הוא 7-, והערך המוחלט שלו הוא 7. כך מחשבים מרחק בין שני מספרים." },
+
+  { t: "pow", text: "מה יודפס?",
+    code: "Console.WriteLine(Math.Pow(3, 2));",
+    opts: ["$6", "$9", "$8", "$5"], a: 1,
+    exp: "3 בחזקת 2 הוא 3 כפול 3, כלומר 9." },
+
+  { t: "pow", text: "מה יקרה בשורה הבאה?",
+    code: "int x = Math.Pow(2, 3);",
+    opts: ["x יקבל את הערך 8", "x יקבל את הערך 8.0", "שגיאת קומפילציה", "x יקבל את הערך 6"], a: 2,
+    exp: "הפעולה מחזירה תמיד double, ואי אפשר לשים double במשתנה int בלי המרה מפורשת." },
+
+  { t: "pow", text: "מה יודפס?",
+    code: "Console.WriteLine(Math.Sqrt(25));",
+    opts: ["$5", "$12.5", "$625", "$2.5"], a: 0,
+    exp: "השורש הריבועי של 25 הוא 5." },
+
+  { t: "pow", text: "מה יודפס?",
+    code: "Console.WriteLine(Math.Pow(27, 1 / 3));",
+    opts: ["$3", "$1", "$9", "$0"], a: 1,
+    exp: "1 חלקי 3 בשלמים הוא 0, וכל מספר בחזקת 0 הוא 1. לשורש שלישי צריך לכתוב 1 / 3.0" },
+
+  { t: "round", text: "מה יודפס?",
+    code: "Console.WriteLine(Math.Round(4.7));",
+    opts: ["$4", "$5", "$4.7", "$4.5"], a: 1,
+    exp: "עיגול לשלם הקרוב ביותר: 4.7 קרוב יותר ל-5." },
+
+  { t: "round", text: "מה יודפס?",
+    code: "Console.WriteLine(Math.Floor(-2.3));",
+    opts: ["$-2", "$-3", "$2", "$-2.3"], a: 1,
+    exp: "עיגול כלפי מטה. במספר שלילי, מטה פירושו מספר קטן יותר, ו-3- קטן מ-2-." },
+
+  { t: "round", text: "x הוא מספר עשרוני. איזה ביטוי מעגל אותו לשתי ספרות אחרי הנקודה?",
+    opts: ["$Math.Round(x) / 100", "$Math.Round(x / 100) * 100", "$Math.Round(x * 100) / 100", "$Math.Round(x * 2)"], a: 2,
+    exp: "כופלים ב-100 כדי להזיז את הנקודה, מעגלים לשלם, ומחלקים ב-100 כדי להחזיר אותה. למשל 3.14159 הופך ל-3.14." },
+
+  { t: "minmax", text: "מה יודפס?",
+    code: "Console.WriteLine(Math.Max(Math.Min(4, 9), 6));",
+    opts: ["$4", "$6", "$9", "$19"], a: 1,
+    exp: "קודם הפעולה הפנימית: הקטן מבין 4 ו-9 הוא 4. אחר כך הגדול מבין 4 ו-6 הוא 6." },
+
+  { t: "minmax", text: "כמה פעמים צריך להפעיל את Math.Min כדי למצוא את הקטן מבין ארבעה מספרים?",
+    opts: ["פעמיים", "שלוש פעמים", "ארבע פעמים", "פעם אחת"], a: 1,
+    exp: "כל הפעלה משווה שני מספרים. לשלושה מספרים צריך שתי הפעלות, ולארבעה צריך שלוש." },
+
+  { t: "formula", text: "איזה ביטוי מחשב את השטח של מעגל עם רדיוס r?",
+    opts: ["$2 * Math.PI * r", "$Math.PI * Math.Pow(r, 2)", "$Math.Pow(Math.PI * r, 2)", "$Math.PI * r * 2"], a: 1,
+    exp: "שטח מעגל הוא פאי כפול הרדיוס בריבוע. האפשרות הראשונה והרביעית מחשבות היקף." },
+
+  { t: "random", text: "אילו מספרים יכולים לצאת מההגרלה rnd.Next(1, 7)?",
+    opts: ["מ-0 עד 7", "מ-1 עד 7", "מ-1 עד 6", "מ-0 עד 6"], a: 2,
+    exp: "המספר הראשון נכלל, והמספר האחרון לא נכלל. לכן זו הגרלה של קובייה." },
+
+  { t: "random", text: "איזו הגרלה נותנת מספר דו ספרתי, מ-10 עד 99?",
+    opts: ["$rnd.Next(10, 99)", "$rnd.Next(100)", "$rnd.Next(10, 100)", "$rnd.Next(99) + 10"], a: 2,
+    exp: "האפשרות הראשונה מפספסת את 99, השנייה יכולה לתת מספר חד ספרתי, והרביעית יכולה לתת עד 108." },
+
+  { t: "random", text: "אילו מספרים יכולים לצאת מהביטוי הבא?",
+    code: "rnd.Next(5) * 2",
+    opts: ["$0, 2, 4, 6, 8, 10", "$0, 2, 4, 6, 8", "$2, 4, 6, 8, 10", "כל מספר מ-0 עד 10"], a: 1,
+    exp: "ההגרלה נותנת 0 עד 4, וכל אחד מהם כפול 2. המספר 5 לא נכלל, ולכן 10 לא יכול לצאת." },
+
+  { t: "ifelse", text: "מה יודפס?",
+    code: "int x = 2;\nif (x > 3)\n{\n    Console.WriteLine(\"A\");\n}\nConsole.WriteLine(\"B\");",
+    opts: ["$A\nB", "$B", "$A", "לא יודפס כלום"], a: 1,
+    exp: "התנאי שקר, ולכן A לא מודפס. השורה של B נמצאת מחוץ לתנאי, והיא מתבצעת תמיד." },
+
+  { t: "ifelse", text: "מה יודפס?",
+    code: "int x = 3;\nif (x > 10);\n{\n    Console.WriteLine(\"Big\");\n}",
+    opts: ["$Big", "לא יודפס כלום", "שגיאת קומפילציה", "$3"], a: 0,
+    exp: "הנקודה פסיק בסוף שורת התנאי מסיימת אותו מיד. הבלוק שאחריו כבר לא שייך לתנאי, ולכן הוא מתבצע תמיד." },
+
+  { t: "chain", text: "מה יודפס?",
+    code: "int t = 25;\nif (t > 30)\n    Console.WriteLine(\"Hot\");\nelse if (t > 20)\n    Console.WriteLine(\"Warm\");\nelse if (t > 10)\n    Console.WriteLine(\"Cool\");\nelse\n    Console.WriteLine(\"Cold\");",
+    opts: ["$Warm", "$Warm\nCool", "$Cool", "$Hot"], a: 0,
+    exp: "השרשרת נעצרת בתנאי הראשון שמתקיים. 25 גדול מ-20, ולכן מודפס Warm והשאר לא נבדק." },
+
+  { t: "chain", text: "שימי לב: אלה שני משפטי תנאי נפרדים ולא שרשרת. מה יודפס?",
+    code: "int n = 95;\nif (n >= 90)\n{\n    Console.WriteLine(\"A\");\n}\nif (n >= 80)\n{\n    Console.WriteLine(\"B\");\n}\nelse\n{\n    Console.WriteLine(\"C\");\n}",
+    opts: ["$A", "$A\nB", "$A\nC", "$B"], a: 1,
+    exp: "בלי else בין התנאים, כל תנאי נבדק בנפרד. 95 עונה על שניהם, ולכן מודפסים A וגם B." },
+
+  { t: "complex", text: "מה יודפס?",
+    code: "int age = 16;\nif (age >= 13 && age <= 19)\n    Console.WriteLine(\"Teen\");\nelse\n    Console.WriteLine(\"Not teen\");",
+    opts: ["$Teen", "$Not teen", "$Teen\nNot teen", "שגיאת קומפילציה"], a: 0,
+    exp: "16 גדול או שווה ל-13 וגם קטן או שווה ל-19. שני התנאים אמת, ולכן כל הביטוי אמת." },
+
+  { t: "complex", text: "מה יודפס?",
+    code: "string day = \"saturday\";\nif (day.Equals(\"Friday\") || day.Equals(\"Saturday\"))\n    Console.WriteLine(\"Weekend\");\nelse\n    Console.WriteLine(\"School\");",
+    opts: ["$Weekend", "$School", "$Weekend\nSchool", "שגיאת קומפילציה"], a: 1,
+    exp: "בהשוואת מחרוזות יש הבדל בין אות גדולה לקטנה. saturday עם אות קטנה שונה מ-Saturday, ולכן שני התנאים שקר." },
+
+  { t: "nested", text: "מה יודפס?",
+    code: "int a = 5, b = 3;\nif (a > b)\n{\n    if (b > 4)\n        Console.WriteLine(\"X\");\n    else\n        Console.WriteLine(\"Y\");\n}\nelse\n{\n    Console.WriteLine(\"Z\");\n}",
+    opts: ["$X", "$Y", "$Z", "$Y\nZ"], a: 1,
+    exp: "התנאי החיצוני אמת, ולכן נכנסים פנימה. שם 3 לא גדול מ-4, ולכן מתבצע ה-else הפנימי ומודפס Y." },
+
+  { t: "switch", text: "מה יודפס?",
+    code: "char op = '*';\nint a = 4, b = 5, r;\nswitch (op)\n{\n    case '+':\n        r = a + b;\n        break;\n    case '*':\n        r = a * b;\n        break;\n    default:\n        r = 0;\n        break;\n}\nConsole.WriteLine(r);",
+    opts: ["$9", "$20", "$0", "$45"], a: 1,
+    exp: "המשתנה op שווה לכפל, ולכן מתבצע המקרה השני: 4 כפול 5. הפקודה break יוצאת מהמשפט." },
+
+  { t: "switch", text: "איזה משפט על משפט בחירה (switch) לא נכון?",
+    opts: ["הערך אחרי case חייב להיות קבוע", "כל מקרה מסתיים ב-break", "חובה לכתוב default", "אפשר לכתוב כמה case ברצף לאותו קוד"], a: 2,
+    exp: "החלק default לא חובה. בלעדיו, אם אף מקרה לא מתאים, פשוט לא מתבצע כלום." }
+];
+
+function esc(s) {
+  return s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+}
+
+function optHtml(o) {
+  if (o.charAt(0) === "$") return "<pre>" + esc(o.slice(1)) + "</pre>";
+  return "<span>" + esc(o) + "</span>";
+}
+
+function render() {
+  var html = "";
+  QUESTIONS.forEach(function (q, i) {
+    html += '<div class="q" id="q' + i + '">';
+    html += '<div class="head"><span class="qnum">שאלה ' + (i + 1) + '</span>';
+    html += '<span class="topic">' + esc(TOPICS[q.t].name) + '</span></div>';
+    html += '<div class="text">' + esc(q.text) + '</div>';
+    if (q.code) html += '<pre class="code">' + esc(q.code) + '</pre>';
+    html += '<div class="opts">';
+    q.opts.forEach(function (o, j) {
+      html += '<label class="opt" id="q' + i + 'o' + j + '"><input type="radio" name="q' + i + '" value="' + j + '">' + optHtml(o) + '</label>';
+    });
+    html += '</div>';
+    html += '<div class="explain" id="e' + i + '"></div>';
+    html += '</div>';
+  });
+  document.getElementById("quiz").innerHTML = html;
+  document.querySelectorAll('#quiz input[type=radio]').forEach(function (r) {
+    r.addEventListener("change", updateProgress);
+  });
+  updateProgress();
+}
+
+function answers() {
+  return QUESTIONS.map(function (q, i) {
+    var c = document.querySelector('input[name="q' + i + '"]:checked');
+    return c ? parseInt(c.value, 10) : -1;
+  });
+}
+
+function updateProgress() {
+  var n = answers().filter(function (a) { return a >= 0; }).length;
+  document.getElementById("barFill").style.width = (n / QUESTIONS.length * 100) + "%";
+  document.getElementById("progressText").textContent = "ענית על " + n + " מתוך " + QUESTIONS.length + " שאלות";
+}
+
+var submittedOnce = false;
+
+function grade() {
+  var ans = answers();
+  var missing = ans.filter(function (a) { return a < 0; }).length;
+  var msg = document.getElementById("msg");
+  if (missing > 0 && !submittedOnce) {
+    msg.textContent = (missing === 1 ? "נשארה שאלה אחת בלי תשובה." : "נשארו " + missing + " שאלות בלי תשובה.") + " אפשר לחזור ולענות, או ללחוץ שוב כדי לבדוק בכל זאת.";
+    submittedOnce = true;
+    var first = ans.indexOf(-1);
+    document.getElementById("q" + first).scrollIntoView({ behavior: "smooth", block: "center" });
+    return;
+  }
+  msg.textContent = "";
+
+  var correct = 0;
+  var wrongByTopic = {};
+  QUESTIONS.forEach(function (q, i) {
+    var box = document.getElementById("q" + i);
+    box.classList.add("done");
+    box.querySelectorAll("input").forEach(function (r) { r.disabled = true; });
+    var ok = ans[i] === q.a;
+    if (ok) correct++;
+    else wrongByTopic[q.t] = (wrongByTopic[q.t] || 0) + 1;
+    document.getElementById("q" + i + "o" + q.a).classList.add("correct");
+    if (ans[i] >= 0 && !ok) document.getElementById("q" + i + "o" + ans[i]).classList.add("wrong");
+    var verdict = ok ? '<span class="verdict ok">נכון.</span>'
+                     : (ans[i] < 0 ? '<span class="verdict bad">לא נענתה.</span>' : '<span class="verdict bad">לא נכון.</span>');
+    document.getElementById("e" + i).innerHTML = verdict + " " + esc(q.exp);
+  });
+
+  var total = QUESTIONS.length;
+  var score = Math.round(correct / total * 100);
+  var level = score >= 85 ? "high" : (score >= 60 ? "mid" : "low");
+  var name = document.getElementById("name").value.trim();
+
+  var r = '<div>' + (name ? esc(name) + ", " : "") + 'הציון שלך:</div>';
+  r += '<div class="score ' + level + '">' + score + '</div>';
+  r += '<div>ענית נכון על ' + correct + ' מתוך ' + total + ' שאלות.</div>';
+
+  var keys = Object.keys(TOPICS).filter(function (k) { return wrongByTopic[k]; });
+  if (keys.length === 0) {
+    r += '<div class="allgood"><strong>כל הכבוד!</strong> ענית נכון על כל השאלות. את מוכנה לפרק הבא.</div>';
+  } else {
+    r += '<div class="review"><strong>נושאים שכדאי לחזור עליהם:</strong><ul>';
+    keys.forEach(function (k) {
+      var tp = TOPICS[k];
+      r += '<li>' + esc(tp.name) + ' <span class="ex">(טעויות: ' + wrongByTopic[k] + '. לחזור על דוגמה ' + tp.ex.join(", ") + ' בקוד ובחוברת)</span></li>';
+    });
+    r += '</ul>';
+    r += '<div>החוברת המלווה: <a href="' + BOOKLET + '" target="_blank" rel="noopener">לחוברת המלווה</a></div>';
+    r += '</div>';
+  }
+  r += '<p style="margin:14px 0 0;color:var(--muted)">למטה מופיעות כל השאלות עם התשובה הנכונה והסבר.</p>';
+
+  var res = document.getElementById("result");
+  res.innerHTML = r;
+  res.style.display = "block";
+
+  document.getElementById("actions").innerHTML = '<button id="againBtn" type="button" class="secondary">התחלה מחדש</button>';
+  document.getElementById("againBtn").addEventListener("click", restart);
+  res.scrollIntoView({ behavior: "smooth", block: "start" });
+}
+
+function restart() {
+  submittedOnce = false;
+  var res = document.getElementById("result");
+  res.style.display = "none";
+  res.innerHTML = "";
+  document.getElementById("actions").innerHTML = '<button id="submitBtn" type="button">בדיקת המבדק</button>';
+  document.getElementById("submitBtn").addEventListener("click", grade);
+  render();
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+document.getElementById("submitBtn").addEventListener("click", grade);
+render();
+</script>
+</body>
+</html>

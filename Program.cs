@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ZviaReview0810
+namespace ZviaReview_Ch1_2
 {
     internal class Program
     {
@@ -14,14 +14,14 @@ namespace ZviaReview0810
 
             // פרק 1: הוראות הדפסה ומשתנים
             // example1();
-            // example2();
+            //example2();
             // example3();
-            // example4();
+            //example4();
             // example5();
-            // example6();
-            // example7();
-            // example8();
-            // example9();
+             //example6();
+           // example7();
+           // example8();
+             example9();
 
             // פרק 2: אופרטורים וביטויים לוגיים
             // example10();
@@ -57,7 +57,7 @@ namespace ZviaReview0810
             // תופס 4 בתים בזיכרון.
             // int
             // 32, 0, -7
-            int numOfStudents = 32;
+            int numOfStudents = 325;
 
             // מספר עשרוני (ממשי), יכול להכיל גם שבר.
             // תופס 8 בתים בזיכרון.
@@ -70,7 +70,7 @@ namespace ZviaReview0810
             // תופס 2 בתים בזיכרון.
             // char
             // 'A', '7', '!'
-            char grade = 'A';
+            char grade = 'א';
 
             // ערך לוגי: אמת או שקר בלבד.
             // תופס בית אחד בזיכרון.
@@ -82,11 +82,12 @@ namespace ZviaReview0810
             // נכתבת בין גרשיים כפולים.
             // string
             // "Hello", "Grade 11", ""
-            string className = "Grade 11";
+            string className = "Grade 11 ++++";
 
             // הגדרת כמה משתנים מאותו טיפוס בשורה אחת, חלקם עם ערך התחלתי
-            int x = 5, y = 10, sum;
-            sum = x + y;
+            int x = 5, y = 10;
+            double sum;
+            sum = x + y+3.5;
 
             Console.WriteLine("int: " + numOfStudents);
             Console.WriteLine("double: " + average);
@@ -101,7 +102,7 @@ namespace ZviaReview0810
  
         public static void example2()
         {
-            Console.Write("Hello World!");
+            Console.WriteLine("Hello World!\n");
             Console.Write("Hi!");
             Console.WriteLine();
             Console.WriteLine("Hello World!");
@@ -159,7 +160,7 @@ namespace ZviaReview0810
             x = 5;
             y = x * 3;
             Console.WriteLine("x = " + x + ", y = " + y + ", z = " + z);
-            x = x + 1;
+            x = x + 1;//x++;
             Console.WriteLine("x after x = x + 1 is " + x);
         }
 
@@ -176,7 +177,7 @@ namespace ZviaReview0810
         {
             int n1 = 3;
             double d = 97.8;
-            string s = "45.6";
+            string s = "45.658";
 
             n1 = (int)d;
             Console.WriteLine("n1 = " + n1);
@@ -184,7 +185,7 @@ namespace ZviaReview0810
             Console.WriteLine("d = " + d);
             d = double.Parse(s);
             Console.WriteLine("d = " + d);
-            s = n1 + "";
+            s = n1 + " guy";
             Console.WriteLine("s = " + s);
         }
 
@@ -197,7 +198,7 @@ namespace ZviaReview0810
         // perimeter = 2 * (length + width)
         public static void example7()
         {
-            double length, width, area, perimeter;
+            double length, width, area, hekef;
 
             Console.Write("Enter the rectangle's length: ");
             length = double.Parse(Console.ReadLine());
@@ -205,10 +206,10 @@ namespace ZviaReview0810
             width = double.Parse(Console.ReadLine());
 
             area = length * width;
-            perimeter = 2 * (length + width);
+            hekef = 2 * (length + width);
 
             Console.WriteLine("The area is " + area);
-            Console.WriteLine("The perimeter is " + perimeter);
+            Console.WriteLine("The perimeter is " + hekef);
         }
 
         // דוגמה 8: הדפסת תווים מיוחדים
@@ -251,7 +252,7 @@ namespace ZviaReview0810
             Console.Write("Enter the second grade: ");
             grade2 = int.Parse(Console.ReadLine());
 
-            average = (grade1 + grade2) / 2;
+            average = (grade1 + grade2) / 2.0;
 
             Console.WriteLine("The average of " + name + " is " + average);
         }
