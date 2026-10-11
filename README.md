@@ -6,8 +6,8 @@
 
 | מבדק | חוברת מלווה | קוד | דוגמאות | נושאים | פרקים |
 |---|---|---|---|---|---|
-| [📝 מבדק](https://ciznerguy.github.io/ZviaReview0810/quiz.html) | [📘 חוברת](https://ciznerguy.github.io/ZviaReview0810/Summary_Ch1_Ch2.html) | [💻 קוד](Program.cs) | מ-1 עד 20 | הוראות הדפסה ומשתנים, אופרטורים וביטויים לוגיים | 1–2 |
-| [📝 מבדק](https://ciznerguy.github.io/ZviaReview0810/quiz_ch3_4.html) | [📘 חוברת](https://ciznerguy.github.io/ZviaReview0810/Summary_Ch3_4.html) | [💻 קוד](ZviaReview_Ch3_4/Program.cs) | מ-21 עד 40 | הספרייה המתמטית ומחלקת אקראי, משפטי תנאי | 3–4 |
+| [📝 מבדק](https://ciznerguy.github.io/Zvia-Bagrut-Yod-Alef/quiz.html) | [📘 חוברת](https://ciznerguy.github.io/Zvia-Bagrut-Yod-Alef/Summary_Ch1_Ch2.html) | [💻 קוד](Program.cs) | מ-1 עד 20 | הוראות הדפסה ומשתנים, אופרטורים וביטויים לוגיים | 1–2 |
+| [📝 מבדק](https://ciznerguy.github.io/Zvia-Bagrut-Yod-Alef/quiz_ch3_4.html) | [📘 חוברת](https://ciznerguy.github.io/Zvia-Bagrut-Yod-Alef/Summary_Ch3_4.html) | [💻 קוד](ZviaReview_Ch3_4/Program.cs) | מ-21 עד 40 | הספרייה המתמטית ומחלקת אקראי, משפטי תנאי | 3–4 |
 
 - **חוברת מלווה:** הסבר, דוגמת הרצה ונקודות חשובות לכל דוגמה בקוד. אפשר גם להדפיס אותה מהדפדפן.
 - **מבדק:** 24 שאלות. בסוף מקבלים ציון ורשימה של הנושאים שכדאי לחזור עליהם.
